@@ -1,0 +1,90 @@
+--Checking Computer--
+if not http then
+  error("This requires the HTTP API to be enabled, please enable it.", 2)
+end
+
+if not term.isColor and not term.isColor() then
+  if os.getVersion() == "CraftOS 1.3" then
+    error("Sorry this OS can only run on Computers with CraftOS 1.4 and above.", 2)
+  end
+
+  error("Sorry this OS can only run on Advanced Computers", 2)
+end
+
+local function upWrite(path, text)
+	local file = assert(io.open(path, "w"))
+	file:write(text)
+	file:close()
+end
+
+function PrintCentered(sText)
+    local w, h = term.getSize()
+    local x, y = term.getCursorPos()
+    x = math.max(math.floor((w / 2) - (#sText / 2)), 0)
+    term.setCursorPos(x, y)
+    print(sText)
+end
+
+--Loading Api's--
+term.setBackgroundColor(colors.white)
+term.clear()
+background = paintutils.loadImage("C/Documents/Pictures/loading/bananaload10%.bfp")
+paintutils.drawImage(background, 18, 1)
+term.setBackgroundColor(colors.white)
+term.setTextColor(colors.black)
+term.setCursorPos(22,16)
+PrintCentered("Loading API's...")
+os.loadAPI("C/BananaOS/Apis/kernal")
+os.loadAPI("C/BananaOS/Apis/beginBar")
+os.loadAPI("C/BananaOS/Apis/programs")
+os.loadAPI("C/BananaOS/Apis/cpanel")
+os.loadAPI("C/BananaOS/Apis/about")
+os.loadAPI("C/BananaOS/Apis/FileMananger")
+
+
+--Checking for Internet--
+term.setBackgroundColor(colors.white)
+term.clear()
+background = paintutils.loadImage("C/Documents/Pictures/loading/bananaload20%.bfp")
+paintutils.drawImage(background, 18, 1)
+term.setBackgroundColor(colors.white)
+term.setTextColor(colors.black)
+term.setCursorPos(22,16)
+PrintCentered("Checking for Internet...")
+if fs.exists("C/BananaOS/Temp/ICheck") then
+	fs.delete("C/BananaOS/Temp/ICheck")
+end
+local osEVer = http.get("https://raw.github.com/TheBanana/BananaOS/master/C/BananaOS/Temp/ICheck")
+upWrite("C/BananaOS/Temp/ICheck", osEVer.readAll())
+osEVer.close()
+
+
+--Checking for Updates--
+term.setBackgroundColor(colors.white)
+term.clear()
+background = paintutils.loadImage("C/Documents/Pictures/loading/bananaload30%.bfp")
+paintutils.drawImage(background, 18, 1)
+term.setBackgroundColor(colors.white)
+term.setTextColor(colors.black)
+term.setCursorPos(22,16)
+PrintCentered("Checking for Updates...")
+if kernal.getLine("C/BananaOS/Temp/ICheck", 1) == "Enabled" then
+if fs.exists("C/BananaOS/Temp/cver") then
+	fs.delete("C/BananaOS/Temp/cver")
+end
+local osEVer = http.get("https://raw.github.com/TheBanana/BananaOS/master/C/BananaOS/Temp/cver")
+upWrite("C/BananaOS/Temp/cver", osEVer.readAll())
+osEVer.close()
+end
+
+--Launching BananaOS--
+term.setBackgroundColor(colors.white)
+term.clear()
+background = paintutils.loadImage("C/Documents/Pictures/loading/bananaload100%.bfp")
+paintutils.drawImage(background, 18, 1)
+term.setBackgroundColor(colors.white)
+term.setTextColor(colors.black)
+term.setCursorPos(22,16)
+PrintCentered("Launching BananaOS...")
+term.setCursorPos(1,1)
+shell.run("C/BananaOS/BananaOS")
